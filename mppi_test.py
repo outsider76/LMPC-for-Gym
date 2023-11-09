@@ -25,7 +25,7 @@ if __name__ == "__main__":
     ACTION_LOW = -2.0
     ACTION_HIGH = 2.0
 
-    d = "cpu"
+    d = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     dtype = torch.double
 
     noise_sigma = torch.tensor(10, device=d, dtype=dtype)
@@ -33,14 +33,12 @@ if __name__ == "__main__":
     lambda_ = 1.
 
 
-    dynamics, running_cost = utils.search4dynamics(ENV_NAME)
-
 
     def train(new_data):
         pass
 
 
-    env = gym.make(ENV_NAME,render_mode="rgb_array")  # bypass the default TimeLimit wrapper
+    env = gym.make(ENV_NAME, render_mode="rgb_array")  # bypass the default TimeLimit wrapper
     state, info = env.reset()
 
 
@@ -51,7 +49,6 @@ if __name__ == "__main__":
                             # horizon=TIMESTEPS,
                             # lambda_=lambda_)
 
-    nx = 3
     mppi_gym = MPPI(ENV_NAME, 
                         noise_sigma, num_samples=N_SAMPLES, horizon=TIMESTEPS,
                         lambda_=lambda_)

@@ -180,7 +180,7 @@ class MPPI():
 
         self.step_dependency = step_dependent_dynamics
 
-        # Todo: Search for analytical dynamics
+        #TODO: Search for analytical dynamics
         # if not exists, raise an error
         self.F, self.running_cost = utils.search4dynamics(ENV_NAME)
 

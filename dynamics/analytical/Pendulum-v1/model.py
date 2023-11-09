@@ -2,13 +2,15 @@ import math
 import torch
 import numpy as np
 
+#TODO: Make it compatiable using cuda and cou devices
+
 
 def angle_normalize(x):
     return (((x + math.pi) % (2 * math.pi)) - math.pi)
 
 def get_th(x, y):
-    sign = np.sign(y)
-    th = np.multiply(np.arccos(x), sign)
+    sign = torch.sign(y)
+    th = torch.multiply(torch.arccos(x), sign)
     return th
 
 def dynamics(state, perturbed_action):
@@ -29,10 +31,10 @@ def dynamics(state, perturbed_action):
     u = torch.clamp(u, -2, 2)
 
     # Do one step
-    newthdot = thdot + (3 * g / (2 * l) * np.sin(th) + 3. / (m * l ** 2) * u) * dt
+    newthdot = thdot + (3 * g / (2 * l) * torch.sin(th) + 3. / (m * l ** 2) * u) * dt
     newth = th + newthdot * dt
-    newx = np.cos(newth)
-    newy = np.sin(newth)
+    newx = torch.cos(newth)
+    newy = torch.sin(newth)
     newthdot = torch.clamp(newthdot, -8, 8)
 
     # Arrange for a new state
